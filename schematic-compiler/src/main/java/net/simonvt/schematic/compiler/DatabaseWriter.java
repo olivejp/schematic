@@ -323,6 +323,11 @@ public class DatabaseWriter {
                 .addParameter(int.class, "oldVersion")
                 .addParameter(int.class, "newVersion");
 
+        // In the onCreate we delete the preview
+        if (createDescriptionTable) {
+            onUpgradeBuilder.addStatement("insertDescriptions(db)");
+        }
+
         if (onUpgrade != null) {
             List<? extends VariableElement> parameters = onUpgrade.getParameters();
             StringBuilder params = new StringBuilder();
